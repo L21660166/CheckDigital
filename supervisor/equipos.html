@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Equipos - Sistema 5S</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #dbeafe;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gray-800), var(--gray-600));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+        
+        .brand-text p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .user-details {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .user-role {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #b45309);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: white;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+        
+        .page-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--gray-800), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .page-header p {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            max-width: 600px;
+        }
+        
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .nav-item {
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--gray-600);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-item:hover {
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Filters Section */
+        .filters-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select, .search-box {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            background: white;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .filter-select:focus, .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        /* Teams Grid */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .team-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        
+        .team-card.success::before { background: var(--success); }
+        .team-card.warning::before { background: var(--warning); }
+        .team-card.danger::before { background: var(--danger); }
+        
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .team-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .team-card.success .team-icon { background: linear-gradient(135deg, var(--success), #059669); }
+        .team-card.warning .team-icon { background: linear-gradient(135deg, var(--warning), #d97706); }
+        .team-card.danger .team-icon { background: linear-gradient(135deg, var(--danger), #dc2626); }
+        
+        .team-info h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .team-info p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .team-card.success .status-badge { background: var(--primary-light); color: var(--success); }
+        .team-card.warning .status-badge { background: #fef3c7; color: var(--warning); }
+        .team-card.danger .status-badge { background: #fef2f2; color: var(--danger); }
+        
+        /* Progress Bar */
+        .progress-section {
+            margin: 1.5rem 0;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .progress-percent {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .team-card.success .progress-percent { color: var(--success); }
+        .team-card.warning .progress-percent { color: var(--warning); }
+        .team-card.danger .progress-percent { color: var(--danger); }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .team-card.success .progress-fill { background: linear-gradient(90deg, var(--success), #34d399); }
+        .team-card.warning .progress-fill { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+        .team-card.danger .progress-fill { background: linear-gradient(90deg, var(--danger), #f87171); }
+        
+        /* Team Members */
+        .team-members {
+            margin: 1.5rem 0;
+        }
+        
+        .members-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .members-header h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .member-count {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            background: var(--gray-100);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+        }
+        
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .member-item:last-child {
+            border-bottom: none;
+        }
+        
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .team-card.success .member-avatar { background: linear-gradient(135deg, var(--success), #059669); }
+        .team-card.warning .member-avatar { background: linear-gradient(135deg, var(--warning), #d97706); }
+        .team-card.danger .member-avatar { background: linear-gradient(135deg, var(--danger), #dc2626); }
+        
+        .member-details {
+            flex: 1;
+        }
+        
+        .member-details strong {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.125rem;
+        }
+        
+        .member-role {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+        
+        /* Team Stats */
+        .team-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .stat:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .team-card.success .stat-number { color: var(--success); }
+        .team-card.warning .stat-number { color: var(--warning); }
+        .team-card.danger .stat-number { color: var(--danger); }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .teams-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.25rem;
+            }
+            
+            .user-details {
+                display: none;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding: 2rem;
+            }
+            
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .filters-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            .teams-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-item {
+                flex: 1;
+                justify-content: center;
+                min-width: 120px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo">5S</div>
+            <div class="brand-text">
+                <h1>Gestión de Equipos - Sistema 5S</h1>
+                <p>Supervisión y seguimiento de equipos de trabajo</p>
+            </div>
+        </div>
+        
+        <div class="user-info">
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="material-icons">dashboard</i>
+                    Dashboard
+                </a>
+                <a href="equipos.html" class="nav-item active">
+                    <i class="material-icons">groups</i>
+                    Equipos
+                </a>
+                <a href="reportes.html" class="nav-item">
+                    <i class="material-icons">assessment</i>
+                    Reportes
+                </a>
+                <a href="auditorias.html" class="nav-item">
+                    
+                </a>
+            </div>
+            
+            <div class="user-details">
+                <div class="user-name">Carlos Ruiz</div>
+                <div class="user-role">Supervisor de Calidad</div>
+            </div>
+            <div class="user-avatar">CR</div>
+            <button class="btn btn-primary" onclick="logout()">
+                <i class="material-icons">logout</i>
+                Cerrar Sesión
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        
+
+        <!-- Filters Section -->
+        <div class="filters-section fade-in-up" style="animation-delay: 0.1s;">
+            <select class="filter-select">
+                <option>Todas las Áreas</option>
+                <option>Taller Electrónico</option>
+                <option>Laboratorio Químico</option>
+                <option>Almacén</option>
+                <option>Oficinas</option>
+                <option>Taller Mecánico</option>
+            </select>
+            
+            <select class="filter-select">
+                <option>Todos los Estados</option>
+                <option>Activo</option>
+                <option>En revisión</option>
+                <option>Crítico</option>
+                <option>Inactivo</option>
+            </select>
+            
+            <input type="text" class="search-box" placeholder="Buscar equipo, responsable o área...">
+            
+            <button class="btn btn-primary">
+                <i class="material-icons">filter_list</i> Filtrar
+            </button>
+            
+            <button class="btn btn-secondary">
+                <i class="material-icons">refresh</i> Actualizar
+            </button>
+             <button class="btn btn-primary">
+                <i class="material-icons">add</i> Nuevo Equipo
+            </button>
+        </div>
+
+        <!-- Teams Grid -->
+        <div class="teams-grid">
+            <!-- Equipo 1 - Activo -->
+            <div class="team-card success fade-in-up" style="animation-delay: 0.2s;">
+                <div class="team-header">
+                    <div class="team-info">
+                        <div class="team-title">
+                            <div class="team-icon">
+                                <i class="material-icons">build</i>
+                            </div>
+                            <h3>Equipo Taller Electrónico</h3>
+                        </div>
+                        <p><strong>Responsable:</strong> Juan Pérez</p>
+                        <p><strong>Área asignada:</strong> Taller Electrónico Completo</p>
+                    </div>
+                    <div class="status-badge">
+                        <i class="material-icons">check_circle</i> Activo
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-label">Cumplimiento 5S</span>
+                        <span class="progress-percent">85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <div class="team-members">
+                    <div class="members-header">
+                        <h4>Miembros del Equipo</h4>
+                        <span class="member-count">4 miembros</span>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar">JP</div>
+                        <div class="member-details">
+                            <strong>Juan Pérez</strong>
+                            <div class="member-role">Líder de equipo - Auditor principal</div>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar">MG</div>
+                        <div class="member-details">
+                            <strong>María González</strong>
+                            <div class="member-role">Auditor senior - Especialista 5S</div>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar">AR</div>
+                        <div class="member-details">
+                            <strong>Ana Rodríguez</strong>
+                            <div class="member-role">Técnico de apoyo</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-stats">
+                    <div class="stat">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Auditorías</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Pendientes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">92%</div>
+                        <div class="stat-label">Eficiencia</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equipo 2 - En revisión -->
+            <div class="team-card warning fade-in-up" style="animation-delay: 0.3s;">
+                <div class="team-header">
+                    <div class="team-info">
+                        <div class="team-title">
+                            <div class="team-icon">
+                                <i class="material-icons">science</i>
+                            </div>
+                            <h3>Equipo Laboratorio Químico</h3>
+                        </div>
+                        <p><strong>Responsable:</strong> Ana Rodríguez</p>
+                        <p><strong>Área asignada:</strong> Laboratorio y Reactivos</p>
+                    </div>
+                    <div class="status-badge">
+                        <i class="material-icons">pending</i> En revisión
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-label">Cumplimiento 5S</span>
+                        <span class="progress-percent">65%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                </div>
+                
+                <div class="team-members">
+                    <div class="members-header">
+                        <h4>Miembros del Equipo</h4>
+                        <span class="member-count">3 miembros</span>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar">AR</div>
+                        <div class="member-details">
+                            <strong>Ana Rodríguez</strong>
+                            <div class="member-role">Líder de equipo - Química senior</div>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar">CR</div>
+                        <div class="member-details">
+                            <strong>Carlos Ruiz</strong>
+                            <div class="member-role">Supervisor - Especialista en seguridad</div>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar">LM</div>
+                        <div class="member-details">
+                            <strong>Luis Martínez</strong>
+                            <div class="member-role">Técnico de laboratorio</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-stats">
+                    <div class="stat">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Auditorías</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Pendientes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">78%</div>
+                        <div class="stat-label">Eficiencia</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equipo 3 - Crítico -->
+            <div class="team-card danger fade-in-up" style="animation-delay: 0.4s;">
+                <div class="team-header">
+                    <div class="team-info">
+                        <div class="team-title">
+                            <div class="team-icon">
+                                <i class="material-icons">inventory_2</i>
+                            </div>
+                            <h3>Equipo Almacén</h3>
+                        </div>
+                        <p><strong>Responsable:</strong> Luis Martínez</p>
+                        <p><strong>Área asignada:</strong> Almacén General</p>
+                    </div>
+                    <div class="status-badge">
+                        <i class="material-icons">warning</i> Crítico
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-label">Cumplimiento 5S</span>
+                        <span class="progress-percent">45%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%"></div>
+                    </div>
+                </div>
+                
+                <div class="team-members">
+                    <div class="members-header">
+                        <h4>Miembros del Equipo</h4>
+                        <span class="member-count">2 miembros</span>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar">LM</div>
+                        <div class="member-details">
+                            <strong>Luis Martínez</strong>
+                            <div class="member-role">Líder de equipo - Almacenista</div>
+                        </div>
+                    </div>
+                    <div class="member-item">
+                        <div class="member-avatar">JR</div>
+                        <div class="member-details">
+                            <strong>José Ramírez</strong>
+                            <div class="member-role">Auxiliar de almacén</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-stats">
+                    <div class="stat">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Auditorías</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Pendientes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">62%</div>
+                        <div class="stat-label">Eficiencia</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                window.location.href = '../index.html';
+            }
+        }
+
+        // Add some interactive effects
+        document.querySelectorAll('.team-card, .btn, .nav-item, .stat').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Simulate filtering functionality
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-box').value.toLowerCase();
+            const areaFilter = document.querySelectorAll('.filter-select')[0].value;
+            const statusFilter = document.querySelectorAll('.filter-select')[1].value;
+            
+            const teams = document.querySelectorAll('.team-card');
+            
+            teams.forEach(team => {
+                let showTeam = true;
+                const teamTitle = team.querySelector('h3').textContent.toLowerCase();
+                const teamArea = team.querySelector('p:nth-child(3)').textContent.toLowerCase();
+                const teamStatus = team.classList.contains('success') ? 'Activo' : 
+                                  team.classList.contains('warning') ? 'En revisión' : 'Crítico';
+                
+                // Apply search filter
+                if (searchTerm && !teamTitle.includes(searchTerm) && 
+                    !teamArea.includes(searchTerm)) {
+                    showTeam = false;
+                }
+                
+                // Apply area filter
+                if (areaFilter !== 'Todas las Áreas' && !teamArea.includes(areaFilter.toLowerCase())) {
+                    showTeam = false;
+                }
+                
+                // Apply status filter
+                if (statusFilter !== 'Todos los Estados' && teamStatus !== statusFilter) {
+                    showTeam = false;
+                }
+                
+                // Show/hide team based on filters
+                team.style.display = showTeam ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

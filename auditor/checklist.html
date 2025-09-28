@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist 5S - Sistema 5S</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --success: #10b981;
+            --danger: #ef4444;
+            --gray-100: #f8fafc;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 6px;
+            --transition: all 0.2s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--gray-800);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .brand-text h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .brand-text p {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1e40af;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-100);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .progress-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray-600);
+            font-size: 0.8rem;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--gray-600);
+            border-bottom: 2px solid transparent;
+            font-size: 0.9rem;
+        }
+        
+        .tab:hover {
+            background: var(--gray-100);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            background: var(--primary-light);
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .tab-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .tab-description {
+            color: var(--gray-600);
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Checklist Items - Diseño Simplificado */
+        .checklist-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .checklist-item {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+        
+        .checklist-item:hover {
+            border-color: var(--gray-300);
+        }
+        
+        .checklist-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+        
+        .checklist-item-title {
+            font-weight: 500;
+            color: var(--gray-800);
+            font-size: 0.95rem;
+            flex: 1;
+        }
+        
+        .critical-badge {
+            background: var(--danger);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+        
+        .checklist-item-desc {
+            color: var(--gray-600);
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .rating-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .rating-option {
+            flex: 1;
+            padding: 0.6rem 0.5rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        
+        .rating-option:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .rating-option.selected {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .rating-option.critical {
+            border-color: var(--danger);
+        }
+        
+        .rating-option.critical.selected {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .comments-section {
+            margin-top: 0.8rem;
+            display: none;
+        }
+        
+        .comments-section.active {
+            display: block;
+        }
+        
+        .comments-section textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            min-height: 70px;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        
+        .comments-section textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .evidence-section {
+            margin-top: 0.8rem;
+            display: none;
+        }
+        
+        .evidence-section.active {
+            display: block;
+        }
+        
+        .evidence-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .evidence-actions .btn {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.8rem;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1 0 50%;
+                padding: 0.7rem 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .checklist-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .rating-options {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+            }
+            
+            .nav-buttons .btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="dashboard.html" class="nav-brand">
+            <div class="logo">5S</div>
+            <div class="brand-text">
+                <h1>Checklist Auditoría 5S</h1>
+                <p id="currentAreaInfo">Taller Electrónico - Estación de Soldadura #5</p>
+            </div>
+        </a>
+        
+        <div class="user-info">
+            <button class="btn btn-success" onclick="completeAudit()">
+                <i class="material-icons">check_circle</i>
+                Finalizar Auditoría
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <h3>Progreso de la Auditoría</h3>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="progress-stats">
+                <span id="completedItems">0 items completados</span>
+                <span id="totalItems">de 25 items totales</span>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="seiri">
+                <span>Seiri</span>
+            </div>
+            <div class="tab" data-tab="seiton">
+                <span>Seiton</span>
+            </div>
+            <div class="tab" data-tab="seiso">
+                <span>Seiso</span>
+            </div>
+            <div class="tab" data-tab="seiketsu">
+                <span>Seiketsu</span>
+            </div>
+            <div class="tab" data-tab="shitsuke">
+                <span>Shitsuke</span>
+            </div>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-content active" id="seiri-content">
+            <div class="tab-header">
+                <h3>Seiri - Clasificar</h3>
+                <span class="tab-stats" id="seiri-stats">0/5 completado</span>
+            </div>
+            
+            <p class="tab-description">
+                Separar los elementos necesarios de los innecesarios en el área de trabajo y eliminar estos últimos.
+            </p>
+            
+            <div class="checklist-items">
+                <!-- Items will be generated by JavaScript -->
+            </div>
+            
+            <div class="action-buttons">
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" disabled>
+                        <i class="material-icons">chevron_left</i> Anterior
+                    </button>
+                    <button class="btn btn-primary" onclick="switchTab('seiton')">
+                        Siguiente <i class="material-icons">chevron_right</i>
+                    </button>
+                </div>
+                <button class="btn btn-secondary" onclick="saveProgress()">
+                    <i class="material-icons">save</i> Guardar
+                </button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="seiton-content">
+            <div class="tab-header">
+                <h3>Seiton - Ordenar</h3>
+                <span class="tab-stats" id="seiton-stats">0/5 completado</span>
+            </div>
+            
+            <p class="tab-description">
+                Organizar los elementos necesarios de manera que sean fáciles de encontrar, usar y reponer.
+            </p>
+            
+            <div class="checklist-items">
+                <!-- Items will be generated by JavaScript -->
+            </div>
+            
+            <div class="action-buttons">
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="switchTab('seiri')">
+                        <i class="material-icons">chevron_left</i> Anterior
+                    </button>
+                    <button class="btn btn-primary" onclick="switchTab('seiso')">
+                        Siguiente <i class="material-icons">chevron_right</i>
+                    </button>
+                </div>
+                <button class="btn btn-secondary" onclick="saveProgress()">
+                    <i class="material-icons">save</i> Guardar
+                </button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="seiso-content">
+            <div class="tab-header">
+                <h3>Seiso - Limpiar</h3>
+                <span class="tab-stats" id="seiso-stats">0/5 completado</span>
+            </div>
+            
+            <p class="tab-description">
+                Mantener limpias las áreas de trabajo, equipos y herramientas.
+            </p>
+            
+            <div class="checklist-items">
+                <!-- Items will be generated by JavaScript -->
+            </div>
+            
+            <div class="action-buttons">
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="switchTab('seiton')">
+                        <i class="material-icons">chevron_left</i> Anterior
+                    </button>
+                    <button class="btn btn-primary" onclick="switchTab('seiketsu')">
+                        Siguiente <i class="material-icons">chevron_right</i>
+                    </button>
+                </div>
+                <button class="btn btn-secondary" onclick="saveProgress()">
+                    <i class="material-icons">save</i> Guardar
+                </button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="seiketsu-content">
+            <div class="tab-header">
+                <h3>Seiketsu - Estandarizar</h3>
+                <span class="tab-stats" id="seiketsu-stats">0/5 completado</span>
+            </div>
+            
+            <p class="tab-description">
+                Establecer estándares y procedimientos para mantener y monitorizar las primeras tres S.
+            </p>
+            
+            <div class="checklist-items">
+                <!-- Items will be generated by JavaScript -->
+            </div>
+            
+            <div class="action-buttons">
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="switchTab('seiso')">
+                        <i class="material-icons">chevron_left</i> Anterior
+                    </button>
+                    <button class="btn btn-primary" onclick="switchTab('shitsuke')">
+                        Siguiente <i class="material-icons">chevron_right</i>
+                    </button>
+                </div>
+                <button class="btn btn-secondary" onclick="saveProgress()">
+                    <i class="material-icons">save</i> Guardar
+                </button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="shitsuke-content">
+            <div class="tab-header">
+                <h3>Shitsuke - Disciplina</h3>
+                <span class="tab-stats" id="shitsuke-stats">0/5 completado</span>
+            </div>
+            
+            <p class="tab-description">
+                Crear el hábito de seguir los procedimientos establecidos y mantener los estándares.
+            </p>
+            
+            <div class="checklist-items">
+                <!-- Items will be generated by JavaScript -->
+            </div>
+            
+            <div class="action-buttons">
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="switchTab('seiketsu')">
+                        <i class="material-icons">chevron_left</i> Anterior
+                    </button>
+                    <button class="btn btn-success" onclick="completeAudit()">
+                        Finalizar <i class="material-icons">check_circle</i>
+                    </button>
+                </div>
+                <button class="btn btn-secondary" onclick="saveProgress()">
+                    <i class="material-icons">save</i> Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Datos del área auditada
+    const auditArea = localStorage.getItem('selectedArea') || 'Taller Electrónico';
+    document.getElementById('currentAreaInfo').textContent = `${auditArea} - Auditoría en curso`;
+
+    // Datos del checklist
+    const checklistData = {
+        seiri: [
+            { id: 1, title: "Identificación de elementos innecesarios", description: "Se han identificado y marcado todos los elementos que no son necesarios para las operaciones actuales.", critical: false },
+            { id: 2, title: "Eliminación de objetos obsoletos", description: "Se han retirado del área todos los objetos rotos, obsoletos o en desuso.", critical: true },
+            { id: 3, title: "Clasificación de herramientas", description: "Las herramientas se han clasificado según su frecuencia de uso.", critical: false },
+            { id: 4, title: "Gestión de inventario", description: "Existe un sistema para gestionar el inventario y evitar acumulación excesiva.", critical: false },
+            { id: 5, title: "Áreas de almacenamiento temporal", description: "Se han establecido áreas claras para elementos de uso ocasional.", critical: false }
+        ],
+        seiton: [
+            { id: 1, title: "Organización visual", description: "Las herramientas y materiales están organizados de forma visualmente intuitiva.", critical: false },
+            { id: 2, title: "Etiquetado adecuado", description: "Todos los elementos están correctamente etiquetados e identificados.", critical: false },
+            { id: 3, title: "Accesibilidad", description: "Los elementos de uso frecuente son fácilmente accesibles.", critical: true },
+            { id: 4, title: "Espacios delimitados", description: "Los espacios de trabajo y almacenamiento están claramente delimitados.", critical: false },
+            { id: 5, title: "Sistema de orden", description: "Existe un sistema lógico para el orden de herramientas y materiales.", critical: false }
+        ],
+        seiso: [
+            { id: 1, title: "Limpieza de superficies", description: "Todas las superficies de trabajo están limpias y libres de polvo.", critical: false },
+            { id: 2, title: "Mantenimiento de equipos", description: "Los equipos y herramientas se mantienen limpios y en buen estado.", critical: true },
+            { id: 3, title: "Plan de limpieza", description: "Existe un plan de limpieza con responsabilidades asignadas.", critical: false },
+            { id: 4, title: "Detección de anomalías", description: "La limpieza permite identificar fácilmente fugas, desgastes o anomalías.", critical: false },
+            { id: 5, title: "Gestión de residuos", description: "Los residuos se gestionan adecuadamente con contenedores específicos.", critical: false }
+        ],
+        seiketsu: [
+            { id: 1, title: "Estándares visuales", description: "Existen estándares visuales para la organización y limpieza.", critical: false },
+            { id: 2, title: "Procedimientos documentados", description: "Los procedimientos de las 5S están documentados y son accesibles.", critical: false },
+            { id: 3, title: "Sistema de colores", description: "Se utiliza un sistema de colores para identificar áreas y elementos.", critical: false },
+            { id: 4, title: "Checklists de mantenimiento", description: "Existen checklists para el mantenimiento de los estándares.", critical: true },
+            { id: 5, title: "Indicadores de desempeño", description: "Se monitorizan indicadores de cumplimiento de las 5S.", critical: false }
+        ],
+        shitsuke: [
+            { id: 1, title: "Cumplimiento de procedimientos", description: "Todos los miembros del equipo siguen los procedimientos establecidos.", critical: true },
+            { id: 2, title: "Auditorías regulares", description: "Se realizan auditorías regulares para verificar el cumplimiento.", critical: false },
+            { id: 3, title: "Cultura de mejora continua", description: "Existe una cultura de mejora continua y autodisciplina.", critical: false },
+            { id: 4, title: "Formación del personal", description: "El personal recibe formación regular sobre las 5S.", critical: false },
+            { id: 5, title: "Reconocimiento y motivación", description: "Existe un sistema de reconocimiento por el cumplimiento de estándares.", critical: false }
+        ]
+    };
+
+    // Estado de la auditoría
+    let auditState = JSON.parse(localStorage.getItem('auditState')) || {
+        seiri: Array(5).fill({rating: null, comments: '', evidence: ''}),
+        seiton: Array(5).fill({rating: null, comments: '', evidence: ''}),
+        seiso: Array(5).fill({rating: null, comments: '', evidence: ''}),
+        seiketsu: Array(5).fill({rating: null, comments: '', evidence: ''}),
+        shitsuke: Array(5).fill({rating: null, comments: '', evidence: ''})
+    };
+
+    // Generar items del checklist
+    function generateChecklistItems(tab) {
+        const container = document.querySelector(`#${tab}-content .checklist-items`);
+        container.innerHTML = '';
+
+        checklistData[tab].forEach((item, index) => {
+            const itemState = auditState[tab][index];
+            const itemElement = document.createElement('div');
+            itemElement.className = 'checklist-item';
+            itemElement.innerHTML = `
+                <div class="checklist-item-header">
+                    <div class="checklist-item-title">
+                        ${item.title}
+                        ${item.critical ? '<span class="critical-badge">Crítico</span>' : ''}
+                    </div>
+                </div>
+                <div class="checklist-item-desc">${item.description}</div>
+                <div class="rating-options">
+                    <div class="rating-option${itemState.rating === 0 ? ' selected' : ''}" data-rating="0" data-tab="${tab}" data-index="${index}">
+                        No Cumple
+                    </div>
+                    <div class="rating-option${itemState.rating === 1 ? ' selected' : ''}" data-rating="1" data-tab="${tab}" data-index="${index}">
+                        Parcialmente
+                    </div>
+                    <div class="rating-option${itemState.rating === 2 ? ' selected' : ''}" data-rating="2" data-tab="${tab}" data-index="${index}">
+                        Cumple
+                    </div>
+                    ${item.critical ? `<div class="rating-option critical${itemState.rating === -1 ? ' selected' : ''}" data-rating="-1" data-tab="${tab}" data-index="${index}">N/A</div>` : ''}
+                </div>
+                <div class="comments-section ${itemState.comments ? 'active' : ''}">
+                    <textarea id="comments-${tab}-${index}" placeholder="Comentarios...">${itemState.comments || ''}</textarea>
+                </div>
+                <div class="evidence-section ${itemState.evidence ? 'active' : ''}">
+                    <div class="evidence-actions">
+                        <button class="btn btn-secondary" onclick="takePhoto('${tab}', ${index})">
+                            <i class="material-icons">photo_camera</i> Tomar Foto
+                        </button>
+                        <button class="btn btn-secondary" onclick="uploadPhoto('${tab}', ${index})">
+                            <i class="material-icons">photo_library</i> Subir Foto
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(itemElement);
+        });
+
+        // Configurar eventos de rating
+        document.querySelectorAll(`#${tab}-content .rating-option`).forEach(option => {
+            option.addEventListener('click', function() {
+                const tab = this.getAttribute('data-tab');
+                const index = parseInt(this.getAttribute('data-index'));
+                const rating = parseInt(this.getAttribute('data-rating'));
+                auditState[tab][index].rating = rating;
+                updateRatingUI(tab, index, rating);
+                
+                const itemElement = this.closest('.checklist-item');
+                const commentsSection = itemElement.querySelector('.comments-section');
+                const evidenceSection = itemElement.querySelector('.evidence-section');
+                
+                // Mostrar/ocultar secciones según la calificación
+                commentsSection.classList.add('active');
+                if (rating < 2) {
+                    evidenceSection.classList.add('active');
+                } else {
+                    evidenceSection.classList.remove('active');
+                }
+                
+                updateProgress();
+                saveProgress();
+            });
+        });
+
+        // Configurar eventos de comentarios
+        document.querySelectorAll(`#${tab}-content textarea`).forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                const idParts = this.id.split('-');
+                const tab = idParts[1];
+                const index = parseInt(idParts[2]);
+                auditState[tab][index].comments = this.value;
+                saveProgress();
+            });
+        });
+    }
+
+    // Actualizar UI de rating
+    function updateRatingUI(tab, index, rating) {
+        const itemElement = document.querySelectorAll(`#${tab}-content .checklist-item`)[index];
+        const options = itemElement.querySelectorAll('.rating-option');
+        options.forEach(option => {
+            option.classList.remove('selected');
+            if (parseInt(option.getAttribute('data-rating')) === rating) {
+                option.classList.add('selected');
+            }
+        });
+    }
+
+    // Cambiar entre pestañas
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.getElementById(`${tabName}-content`).classList.add('active');
+        document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+        updateTabStats(tabName);
+    }
+
+    // Actualizar estadísticas de pestaña
+    function updateTabStats(tabName) {
+        const completed = auditState[tabName].filter(item => item.rating !== null).length;
+        const total = auditState[tabName].length;
+        document.getElementById(`${tabName}-stats`).textContent = `${completed}/${total} completado`;
+    }
+
+    // Actualizar progreso general
+    function updateProgress() {
+        let totalItems = 0;
+        let completedItems = 0;
+        Object.keys(auditState).forEach(tab => {
+            totalItems += auditState[tab].length;
+            completedItems += auditState[tab].filter(item => item.rating !== null).length;
+            updateTabStats(tab);
+        });
+        const progressPercent = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
+        document.getElementById('progressPercent').textContent = `${Math.round(progressPercent)}%`;
+        document.getElementById('progressFill').style.width = `${progressPercent}%`;
+        document.getElementById('completedItems').textContent = `${completedItems} items completados`;
+        document.getElementById('totalItems').textContent = `de ${totalItems} items totales`;
+    }
+
+    // Simular toma de foto
+    function takePhoto(tab, index) {
+        alert(`Función de cámara activada para ${tab}, item ${index + 1}.`);
+        auditState[tab][index].evidence = `foto_${tab}_${index}_${Date.now()}.jpg`;
+        saveProgress();
+    }
+
+    // Simular subida de foto
+    function uploadPhoto(tab, index) {
+        alert(`Selector de archivos activado para ${tab}, item ${index + 1}.`);
+        auditState[tab][index].evidence = `evidencia_${tab}_${index}_${Date.now()}.jpg`;
+        saveProgress();
+    }
+
+    // Guardar progreso
+    function saveProgress() {
+        localStorage.setItem('auditState', JSON.stringify(auditState));
+        const saveBtn = document.querySelector('.btn-secondary i');
+        const originalText = saveBtn.textContent;
+        saveBtn.textContent = 'check';
+        setTimeout(() => {
+            saveBtn.textContent = originalText;
+        }, 1000);
+    }
+
+    // Finalizar auditoría
+    function completeAudit() {
+        const completedItems = Object.values(auditState).flat().filter(item => item.rating !== null).length;
+        const totalItems = Object.values(auditState).flat().length;
+        if (completedItems < totalItems) {
+            if (!confirm(`Has completado ${completedItems} de ${totalItems} items. ¿Estás seguro de que quieres finalizar la auditoría?`)) {
+                return;
+            }
+        }
+        alert(`¡Auditoría completada para ${auditArea}! Los resultados han sido guardados.`);
+        localStorage.removeItem('auditState');
+        localStorage.removeItem('selectedArea');
+        window.location.href = 'dashboard.html';
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        // Generar checklist items para cada pestaña
+        Object.keys(checklistData).forEach(tab => {
+            generateChecklistItems(tab);
+        });
+        // Configurar eventos de tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                switchTab(this.getAttribute('data-tab'));
+            });
+        });
+        // Actualizar progreso
+        updateProgress();
+    });
+</script>
+</body>
+</html>

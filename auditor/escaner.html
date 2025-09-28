@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escaner QR - Sistema 5S</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #dbeafe;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gray-800), var(--gray-600));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+        
+        .brand-text p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .user-details {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .user-role {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Scanner Section */
+        .scanner-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .scanner-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .scanner-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+        }
+        
+        .scanner-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+        
+        .scanner-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 3.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .scanner-container h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--gray-800);
+        }
+        
+        .scanner-container p {
+            font-size: 1rem;
+            color: var(--gray-600);
+            max-width: 400px;
+            margin-bottom: 2rem;
+        }
+        
+        .scanner-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .scanner-frame {
+            width: 100%;
+            height: 300px;
+            border: 3px dashed var(--primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            background: var(--gray-50);
+        }
+        
+        .scanner-frame::before, .scanner-frame::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--primary);
+        }
+        
+        .scanner-frame::before {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+            border-top-left-radius: var(--radius);
+        }
+        
+        .scanner-frame::after {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+            border-bottom-right-radius: var(--radius);
+        }
+        
+        .scanner-frame .corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--primary);
+        }
+        
+        .corner-top-right {
+            top: 0;
+            right: 0;
+            border-left: none;
+            border-bottom: none;
+            border-top-right-radius: var(--radius);
+        }
+        
+        .corner-bottom-left {
+            bottom: 0;
+            left: 0;
+            border-right: none;
+            border-top: none;
+            border-bottom-left-radius: var(--radius);
+        }
+        
+        /* Recent Scans */
+        .recent-scans {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .recent-scans h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .scan-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--gray-200);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .scan-item:hover {
+            background: var(--gray-50);
+            border-radius: var(--radius);
+        }
+        
+        .scan-item:last-child {
+            border-bottom: none;
+        }
+        
+        .scan-item i {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+        
+        .scan-item.build i { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .scan-item.science i { background: linear-gradient(135deg, #10b981, #047857); }
+        .scan-item.inventory i { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        
+        .scan-item div {
+            flex: 1;
+        }
+        
+        .scan-item strong {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .scan-item p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.25rem;
+            }
+            
+            .user-details {
+                display: none;
+            }
+            
+            .scanner-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .scanner-controls .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Scanner Animation */
+        @keyframes scanLine {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        .scan-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: scanLine 2s linear infinite;
+            display: none;
+        }
+        
+        .scanning .scan-line {
+            display: block;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="dashboard.html" class="nav-brand">
+            <div class="logo">5S</div>
+            <div class="brand-text">
+                <h1>Escáner QR - Sistema 5S</h1>
+                <p>Iniciar auditoría mediante código QR</p>
+            </div>
+        </a>
+        
+        <div class="user-info">
+            <div class="user-details">
+                <div class="user-name">María González</div>
+                <div class="user-role">Auditor Senior</div>
+            </div>
+            <div class="user-avatar">MG</div>
+            <button class="btn btn-primary" onclick="logout()">
+                <i class="material-icons">logout</i>
+                Cerrar Sesión
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Scanner Section -->
+        <div class="scanner-section">
+            <div class="scanner-container fade-in-up">
+                <div class="scanner-icon pulse">
+                    <i class="material-icons">qr_code_scanner</i>
+                </div>
+                <h3>Escaneo de Código QR</h3>
+                <p>Encuadre el código QR dentro del marco para iniciar la auditoría. La cámara se activará automáticamente.</p>
+                
+                <div class="scanner-frame" id="scannerFrame">
+                    <div class="scan-line" id="scanLine"></div>
+                    <div class="corner corner-top-right"></div>
+                    <div class="corner corner-bottom-left"></div>
+                    <i class="material-icons" style="font-size: 4rem; color: var(--gray-300);">qr_code_2</i>
+                </div>
+                
+                <div class="scanner-controls">
+                    <button class="btn btn-primary" onclick="startScanner()">
+                        <i class="material-icons">camera</i> Activar Cámara
+                    </button>
+                    <button class="btn btn-secondary" onclick="simulateScan()">
+                        <i class="material-icons">smart_toy</i> Simular Escaneo
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="material-icons">photo_library</i> Cargar desde Galería
+                    </button>
+                </div>
+            </div>
+            
+            <div class="scanner-container fade-in-up" style="animation-delay: 0.2s;">
+                <div class="scanner-icon" style="background: linear-gradient(135deg, var(--success), #059669);">
+                    <i class="material-icons">help</i>
+                </div>
+                <h3>¿Cómo usar el escáner?</h3>
+                <p>Siga estos pasos para realizar una auditoría exitosa:</p>
+                
+                <div style="text-align: left; width: 100%; margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
+                        <div>
+                            <strong>Localice el código QR</strong>
+                            <p style="margin-top: 0.25rem; font-size: 0.9rem;">Busque la etiqueta QR en el área a auditar.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
+                        <div>
+                            <strong>Encuadre el código</strong>
+                            <p style="margin-top: 0.25rem; font-size: 0.9rem;">Asegúrese de que el código esté dentro del marco de escaneo.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
+                        <div>
+                            <strong>Complete la auditoría</strong>
+                            <p style="margin-top: 0.25rem; font-size: 0.9rem;">Siga el checklist y envíe el reporte final.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Scans -->
+        <div class="recent-scans fade-in-up" style="animation-delay: 0.4s;">
+            <h3><i class="material-icons">history</i> Escaneos Recientes</h3>
+            
+            <div class="scan-item build" onclick="selectArea('Taller Electrónico')">
+                <i class="material-icons">build</i>
+                <div>
+                    <strong>Taller Electrónico</strong>
+                    <p>Estación de Soldadura #5 • Escaneado hace 2 días</p>
+                </div>
+                <i class="material-icons" style="color: var(--gray-400);">chevron_right</i>
+            </div>
+            
+            <div class="scan-item science" onclick="selectArea('Laboratorio Químico')">
+                <i class="material-icons">science</i>
+                <div>
+                    <strong>Laboratorio Químico</strong>
+                    <p>Área de Reactivos • Escaneado hace 1 semana</p>
+                </div>
+                <i class="material-icons" style="color: var(--gray-400);">chevron_right</i>
+            </div>
+            
+            <div class="scan-item inventory" onclick="selectArea('Almacén General')">
+                <i class="material-icons">inventory_2</i>
+                <div>
+                    <strong>Almacén General</strong>
+                    <p>Zona de Herramientas • Escaneado hace 3 semanas</p>
+                </div>
+                <i class="material-icons" style="color: var(--gray-400);">chevron_right</i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startScanner() {
+            const scannerFrame = document.getElementById('scannerFrame');
+            const scanLine = document.getElementById('scanLine');
+            
+            // Simular activación de cámara
+            scannerFrame.classList.add('scanning');
+            
+            // Mostrar mensaje de activación
+            alert('Cámara activada. Por favor, enfoque el código QR en el área de escaneo.');
+            
+            // Después de 3 segundos, ofrecer simulación si no se detecta código
+            setTimeout(() => {
+                if (scannerFrame.classList.contains('scanning')) {
+                    if (confirm('No se detectó ningún código QR. ¿Desea simular un escaneo?')) {
+                        simulateScan();
+                    } else {
+                        scannerFrame.classList.remove('scanning');
+                    }
+                }
+            }, 3000);
+        }
+        
+        function simulateScan() {
+            const scannerFrame = document.getElementById('scannerFrame');
+            scannerFrame.classList.add('scanning');
+            
+            // Simulación de escaneo exitoso con animación
+            setTimeout(() => {
+                const areas = ['Taller Electrónico', 'Laboratorio Químico', 'Almacén General'];
+                const randomArea = areas[Math.floor(Math.random() * areas.length)];
+                
+                // Mostrar mensaje de éxito
+                alert(`¡Código QR escaneado con éxito!\nÁrea: ${randomArea}`);
+                
+                // Guardar área seleccionada y redirigir
+                localStorage.setItem('selectedArea', randomArea);
+                window.location.href = 'checklist.html';
+            }, 2000);
+        }
+        
+        function selectArea(area) {
+            if (confirm(`¿Iniciar auditoría en ${area}?`)) {
+                localStorage.setItem('selectedArea', area);
+                window.location.href = 'checklist.html';
+            }
+        }
+        
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                window.location.href = '../index.html';
+            }
+        }
+        
+        // Efectos de hover para elementos interactivos
+        document.querySelectorAll('.scan-item, .btn').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

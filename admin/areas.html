@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Áreas - Sistema 5S</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --primary-light: #ede9fe;
+            --secondary: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gray-800), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+        
+        .brand-text p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .user-details {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .user-role {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #b45309);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: white;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+        
+        .page-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--gray-800), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .page-header p {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            max-width: 600px;
+        }
+        
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .nav-item {
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--gray-600);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-item:hover {
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Areas Actions */
+        .areas-actions {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            background: white;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            min-width: 250px;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            background: white;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        
+        /* Stats Overview */
+        .stats-overview {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .stat-item:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-item:nth-child(1) .stat-number { color: var(--primary); }
+        .stat-item:nth-child(2) .stat-number { color: var(--success); }
+        .stat-item:nth-child(3) .stat-number { color: var(--warning); }
+        .stat-item:nth-child(4) .stat-number { color: var(--danger); }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        /* Areas Grid */
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .area-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .area-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .area-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        
+        .area-card.high-compliance::before { background: var(--success); }
+        .area-card.medium-compliance::before { background: var(--warning); }
+        .area-card.low-compliance::before { background: var(--danger); }
+        
+        .area-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .area-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .area-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        
+        .area-card.high-compliance .area-icon { background: linear-gradient(135deg, var(--success), #059669); }
+        .area-card.medium-compliance .area-icon { background: linear-gradient(135deg, var(--warning), #d97706); }
+        .area-card.low-compliance .area-icon { background: linear-gradient(135deg, var(--danger), #dc2626); }
+        
+        .area-info h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .compliance-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .area-card.high-compliance .compliance-badge { background: var(--primary-light); color: var(--success); }
+        .area-card.medium-compliance .compliance-badge { background: #fef3c7; color: var(--warning); }
+        .area-card.low-compliance .compliance-badge { background: #fef2f2; color: var(--danger); }
+        
+        /* Area Details */
+        .area-details {
+            margin: 1.5rem 0;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+        }
+        
+        .area-card.high-compliance .status { color: var(--success); }
+        .area-card.medium-compliance .status { color: var(--warning); }
+        .area-card.low-compliance .status { color: var(--danger); }
+        
+        /* QR Section */
+        .qr-section {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin: 1.5rem 0;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .qr-section:hover {
+            background: var(--gray-100);
+        }
+        
+        .qr-placeholder {
+            width: 100px;
+            height: 100px;
+            background: var(--gray-200);
+            border-radius: var(--radius);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-500);
+            font-size: 2.5rem;
+        }
+        
+        .qr-info {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-sm {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            flex: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .areas-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.25rem;
+            }
+            
+            .user-details {
+                display: none;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding: 2rem;
+            }
+            
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .areas-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            .areas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-item {
+                flex: 1;
+                justify-content: center;
+                min-width: 120px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo">5S</div>
+            <div class="brand-text">
+                <h1>Gestión de Áreas</h1>
+                <p>Configuración y administración de áreas para auditorías</p>
+            </div>
+        </div>
+        
+        <div class="user-info">
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="material-icons">admin_panel_settings</i>
+                    Dashboard
+                </a>
+                <a href="usuarios.html" class="nav-item">
+                    <i class="material-icons">people</i>
+                    Usuarios
+                </a>
+                <a href="areas.html" class="nav-item active">
+                    <i class="material-icons">business</i>
+                    Áreas
+                </a>
+                <a href="configuracion.html" class="nav-item">
+                    <i class="material-icons">settings</i>
+                    Configuración
+                </a>
+            </div>
+            
+            <div class="user-details">
+                <div class="user-name">Administrador</div>
+                <div class="user-role">Acceso: Completo</div>
+            </div>
+            <div class="user-avatar">AD</div>
+            <button class="btn btn-primary" onclick="logout()">
+                <i class="material-icons">logout</i>
+                Cerrar Sesión
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        
+
+        <!-- Areas Actions -->
+        <div class="areas-actions fade-in-up" style="animation-delay: 0.1s;">
+            <input type="text" class="search-box" placeholder="Buscar área por nombre o responsable...">
+            
+            <select class="filter-select">
+                <option>Todas las Áreas</option>
+                <option>Talleres</option>
+                <option>Laboratorios</option>
+                <option>Almacenes</option>
+                <option>Oficinas</option>
+            </select>
+            
+            <select class="filter-select">
+                <option>Todo Estado</option>
+                <option>Alto Cumplimiento</option>
+                <option>Medio Cumplimiento</option>
+                <option>Bajo Cumplimiento</option>
+            </select>
+            
+            <button class="btn btn-success">
+                <i class="material-icons">qr_code</i> Generar QR's
+            </button>
+
+            <button class="btn btn-danger" onclick="deleteSelectedAreas()">
+                <i class="material-icons">delete</i> Eliminar Áreas
+            </button>
+            <button class="btn btn-primary" onclick="showAddAreaModal()">
+                <i class="material-icons">add</i> Nueva Área
+            </button>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-overview fade-in-up" style="animation-delay: 0.2s;">
+            <div class="section-header">
+                <h3><i class="material-icons">analytics</i> Resumen de Áreas Configuradas</h3>
+                <span style="color: var(--gray-600); font-size: 0.875rem;">Estado actual del sistema</span>
+                <button class="btn btn-secondary">
+                <i class="material-icons">refresh</i> Actualizar
+            </button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">Áreas Totales</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Activas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">En Revisión</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Inactivas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Areas Grid -->
+        <div class="areas-grid">
+            <!-- Área 1 - Alto Cumplimiento -->
+            <div class="area-card high-compliance fade-in-up" style="animation-delay: 0.3s;">
+                <div class="area-header">
+                    <div class="area-title">
+                        <div class="area-icon">
+                            <i class="material-icons">build</i>
+                        </div>
+                        <div class="area-info">
+                            <h3>Taller Electrónico</h3>
+                            <span class="compliance-badge">
+                                <i class="material-icons">trending_up</i> 92% Cumplimiento
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="area-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Responsable:</span>
+                        <span class="detail-value">Carlos Ruiz</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Equipos asignados:</span>
+                        <span class="detail-value">5 equipos</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Última auditoría:</span>
+                        <span class="detail-value">20/01/2024</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estado:</span>
+                        <span class="detail-value status">Activo</span>
+                    </div>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="qr-placeholder">
+                        <i class="material-icons">qr_code_2</i>
+                    </div>
+                    <div class="qr-info">Código QR generado: TE-001</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-sm">
+                        <i class="material-icons">edit</i> Editar
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="material-icons">visibility</i> Ver QR
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="material-icons">analytics</i> Estadísticas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área 2 - Medio Cumplimiento -->
+            <div class="area-card medium-compliance fade-in-up" style="animation-delay: 0.4s;">
+                <div class="area-header">
+                    <div class="area-title">
+                        <div class="area-icon">
+                            <i class="material-icons">science</i>
+                        </div>
+                        <div class="area-info">
+                            <h3>Laboratorio Químico</h3>
+                            <span class="compliance-badge">
+                                <i class="material-icons">trending_flat</i> 78% Cumplimiento
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="area-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Responsable:</span>
+                        <span class="detail-value">Ana Rodríguez</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Equipos asignados:</span>
+                        <span class="detail-value">3 equipos</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Última auditoría:</span>
+                        <span class="detail-value">18/01/2024</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estado:</span>
+                        <span class="detail-value status">En revisión</span>
+                    </div>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="qr-placeholder">
+                        <i class="material-icons">qr_code_2</i>
+                    </div>
+                    <div class="qr-info">Código QR generado: LQ-002</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-sm">
+                        <i class="material-icons">edit</i> Editar
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="material-icons">visibility</i> Ver QR
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="material-icons">analytics</i> Estadísticas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área 3 - Bajo Cumplimiento -->
+            <div class="area-card low-compliance fade-in-up" style="animation-delay: 0.5s;">
+                <div class="area-header">
+                    <div class="area-title">
+                        <div class="area-icon">
+                            <i class="material-icons">inventory_2</i>
+                        </div>
+                        <div class="area-info">
+                            <h3>Almacén General</h3>
+                            <span class="compliance-badge">
+                                <i class="material-icons">trending_down</i> 65% Cumplimiento
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="area-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Responsable:</span>
+                        <span class="detail-value">Luis Martínez</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Equipos asignados:</span>
+                        <span class="detail-value">2 equipos</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Última auditoría:</span>
+                        <span class="detail-value">15/01/2024</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estado:</span>
+                        <span class="detail-value status">Crítico</span>
+                    </div>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="qr-placeholder">
+                        <i class="material-icons">qr_code_2</i>
+                    </div>
+                    <div class="qr-info">Código QR generado: AG-003</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-sm">
+                        <i class="material-icons">edit</i> Editar
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="material-icons">visibility</i> Ver QR
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="material-icons">analytics</i> Estadísticas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área 4 - Alto Cumplimiento -->
+            <div class="area-card high-compliance fade-in-up" style="animation-delay: 0.6s;">
+                <div class="area-header">
+                    <div class="area-title">
+                        <div class="area-icon">
+                            <i class="material-icons">engineering</i>
+                        </div>
+                        <div class="area-info">
+                            <h3>Taller Mecánico</h3>
+                            <span class="compliance-badge">
+                                <i class="material-icons">trending_up</i> 88% Cumplimiento
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="area-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Responsable:</span>
+                        <span class="detail-value">Juan Pérez</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Equipos asignados:</span>
+                        <span class="detail-value">4 equipos</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Última auditoría:</span>
+                        <span class="detail-value">22/01/2024</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estado:</span>
+                        <span class="detail-value status">Activo</span>
+                    </div>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="qr-placeholder">
+                        <i class="material-icons">qr_code_2</i>
+                    </div>
+                    <div class="qr-info">Código QR generado: TM-004</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-sm">
+                        <i class="material-icons">edit</i> Editar
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="material-icons">visibility</i> Ver QR
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="material-icons">analytics</i> Estadísticas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                window.location.href = '../index.html';
+            }
+        }
+
+        function showAddAreaModal() {
+            alert('Modal de agregar área - Funcionalidad en desarrollo');
+        }
+
+        // Add some interactive effects
+        document.querySelectorAll('.area-card, .btn, .nav-item, .stat-item').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Simulate search functionality
+        document.querySelector('.search-box').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const areaCards = document.querySelectorAll('.area-card');
+            
+            areaCards.forEach(card => {
+                const areaName = card.querySelector('h3').textContent.toLowerCase();
+                const areaManager = card.querySelector('.detail-value').textContent.toLowerCase();
+                
+                if (areaName.includes(searchTerm) || areaManager.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

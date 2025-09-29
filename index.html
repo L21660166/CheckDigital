@@ -186,14 +186,14 @@
   <div class="login-container">
     <div class="logo">
       <div class="logo-icon">5S</div>
-      <h1>Sistema de Auditoría 5S</h1>
+      <h1>Sistema de Evaluación Digital 5S</h1>
       <p class="subtitle">Control y seguimiento de implementación 5S</p>
     </div>
 
     <form id="loginForm">
       <div class="form-group">
         <label for="username">Usuario</label>
-        <input type="text" id="username" placeholder="Ingrese admin, supervisor o auditor" required autocomplete="username">
+        <input type="text" id="username" placeholder="Ingrese admin, evaluador o auditor" required autocomplete="username">
       </div>
 
       <div class="form-group">
@@ -233,9 +233,9 @@
           icon = 'supervisor_account';
           text = 'Supervisor';
           break;
-        case 'auditor':
+        case 'evaluador':
           icon = 'search';
-          text = 'Auditor';
+          text = 'Evaluador';
           break;
         default:
           roleIndicator.classList.remove('show');
@@ -261,14 +261,15 @@
           case 'supervisor':
             window.location.href = 'supervisor/dashboard.html';
             break;
-          case 'auditor':
+          case 'evaluador':
             window.location.href = 'auditor/dashboard.html';
             break;
           default:
-            alert('Usuario no válido. Use: admin, supervisor o auditor');
+            alert('Usuario no válido. Use: admin, supervisor o evaluador');
         }
       }
     });
   </script>
 </body>
 </html>
+

@@ -193,7 +193,7 @@
     <form id="loginForm">
       <div class="form-group">
         <label for="username">Usuario</label>
-        <input type="text" id="username" placeholder="Ingrese usuario 'evaluador, supervisor, admin' " required autocomplete="username">
+        <input type="text" id="username" placeholder="Ingrese usuario" required autocomplete="username">
       </div>
 
       <div class="form-group">
@@ -225,15 +225,15 @@
       let icon = '', text = '';
 
       switch(username) {
-        case 'admin':
+        case 'Garza1':
           icon = 'admin_panel_settings';
           text = 'Administrador';
           break;
-        case 'supervisor':
+        case 'Garza2':
           icon = 'supervisor_account';
           text = 'Supervisor';
           break;
-        case 'evaluador':
+        case 'Garza3':
           icon = 'search';
           text = 'Evaluador';
           break;
@@ -255,13 +255,13 @@
 
       if (username && password) {
         switch(username) {
-          case 'admin':
+          case 'Garza1':
             window.location.href = 'admin/dashboard.html';
             break;
-          case 'supervisor':
+          case 'Garza2':
             window.location.href = 'supervisor/dashboard.html';
             break;
-          case 'evaluador':
+          case 'Garza3':
             window.location.href = 'auditor/dashboard.html';
             break;
           default:
@@ -272,6 +272,7 @@
   </script>
 </body>
 </html>
+
 
 
 

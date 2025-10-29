@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Auditor - Sistema 5S</title>
+    <title>Dashboard Tienda - Sistema 5S</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -407,8 +407,8 @@
             height: 100% !important;
         }
         
-        /* Pending Audits - RESPONSIVE */
-        .pending-audits {
+        /* Pending Tasks - RESPONSIVE */
+        .pending-tasks {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             padding: 1.5rem;
@@ -435,7 +435,7 @@
             gap: 0.4rem;
         }
         
-        .audit-item {
+        .task-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -446,16 +446,16 @@
             gap: 0.8rem;
         }
         
-        .audit-item:hover {
+        .task-item:hover {
             background: var(--gray-50);
             border-radius: var(--radius);
         }
         
-        .audit-item:last-child {
+        .task-item:last-child {
             border-bottom: none;
         }
         
-        .audit-info {
+        .task-info {
             display: flex;
             align-items: center;
             gap: 0.8rem;
@@ -463,7 +463,7 @@
             min-width: 200px;
         }
         
-        .audit-icon {
+        .task-icon {
             width: 40px;
             height: 40px;
             border-radius: 10px;
@@ -475,17 +475,17 @@
             flex-shrink: 0;
         }
         
-        .audit-icon.electronics { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-        .audit-icon.chemistry { background: linear-gradient(135deg, #10b981, #047857); }
-        .audit-icon.warehouse { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .task-icon.inventory { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .task-icon.cleaning { background: linear-gradient(135deg, #10b981, #047857); }
+        .task-icon.customer { background: linear-gradient(135deg, #f59e0b, #d97706); }
         
-        .audit-details h4 {
+        .task-details h4 {
             font-weight: 600;
             margin-bottom: 0.2rem;
             font-size: 0.95rem;
         }
         
-        .audit-details p {
+        .task-details p {
             font-size: 0.75rem;
             color: var(--gray-600);
         }
@@ -631,7 +631,7 @@
                 padding: 1.5rem;
             }
             
-            .pending-audits {
+            .pending-tasks {
                 padding: 2rem;
             }
         }
@@ -658,11 +658,11 @@
                 grid-template-columns: 1fr;
             }
             
-            .audit-info {
+            .task-info {
                 min-width: 100%;
             }
             
-            .audit-item {
+            .task-item {
                 flex-direction: column;
                 align-items: flex-start;
             }
@@ -709,17 +709,17 @@
         <div class="nav-brand">
             <div class="logo">5S</div>
             <div class="brand-text">
-                <h1>Sistema de Evaluación</h1>
-                <p>Excelencia operacional y mejora continua</p>
+                <h1>Gestión de Tienda</h1>
+                <p>Inventario, atención y limpieza</p>
             </div>
         </div>
         
         <div class="user-info">
             <div class="user-details">
-                <div class="user-name">María González</div>
-                <div class="user-role">Evaluador</div>
+                <div class="user-name">Carlos Mendoza</div>
+                <div class="user-role">Encargado de Tienda</div>
             </div>
-            <div class="user-avatar">MG</div>
+            <div class="user-avatar">CM</div>
             <button class="btn btn-primary" onclick="logout()">
                 <i class="material-icons">logout</i>
                 Salir
@@ -729,66 +729,67 @@
 
     <!-- Main Content -->
     <div class="container">
+        
 
         <!-- Quick Actions -->
         <div class="quick-actions">
-            <a href="escaner.html" class="action-card primary fade-in-up">
+            <a href="inventario.html" class="action-card primary fade-in-up">
                 <div class="action-icon">
-                    <i class="material-icons">qr_code_scanner</i>
+                    <i class="material-icons">inventory</i>
                 </div>
-                <h3>Iniciar Evaluación</h3>
-                <p>Escanear código QR para comenzar nueva evaluación 5S</p>
+                <h3>Control de Inventario</h3>
+                <p>Verificar stock y realizar conteo de productos</p>
             </a>
             
             <a href="#" class="action-card fade-in-up" style="animation-delay: 0.1s;">
                 <div class="action-icon">
-                    <i class="material-icons">assessment</i>
+                    <i class="material-icons">cleaning_services</i>
                 </div>
-                <h3>Mis Evaluaciones</h3>
-                <p>Revisar historial completo y reportes anteriores</p>
+                <h3>Limpieza</h3>
+                <p>Verificar áreas y completar checklist de limpieza</p>
             </a>
             
             <a href="#" class="action-card fade-in-up" style="animation-delay: 0.2s;">
                 <div class="action-icon">
-                    <i class="material-icons">photo_library</i>
+                    <i class="material-icons">support_agent</i>
                 </div>
-                <h3>Evidencias</h3>
-                <p>Gestionar fotos y documentos de auditorías</p>
+                <h3>Atención al Cliente</h3>
+                <p>Revisar quejas y métricas de satisfacción</p>
             </a>
         </div>
 
         <!-- Stats Grid -->
         <div class="stats-grid">
             <div class="stat-card fade-in-up" style="animation-delay: 0.3s;">
-                <div class="stat-number">12</div>
-                <div class="stat-label">Evaluaciones Completadas</div>
+                <div class="stat-number">156</div>
+                <div class="stat-label">Ventas Hoy</div>
                 <div class="stat-trend trend-up">
                     <i class="material-icons">trending_up</i>
-                    +2 esta semana
+                    +12% vs ayer
                 </div>
             </div>
             
             <div class="stat-card fade-in-up" style="animation-delay: 0.4s;">
                 <div class="stat-number">3</div>
-                <div class="stat-label">Pendientes Hoy</div>
+                <div class="stat-label">Tareas Pendientes</div>
                 <div class="stat-trend">
                     <i class="material-icons">schedule</i>
-                    Por realizar
+                    Por completar
                 </div>
             </div>
             
             <div class="stat-card fade-in-up" style="animation-delay: 0.5s;">
-                <div class="stat-number">87%</div>
-                <div class="stat-label">Cumplimiento Promedio</div>
+                <div class="stat-number">92%</div>
+                <div class="stat-label">Satisfacción Clientes</div>
                 <div class="stat-trend trend-up">
                     <i class="material-icons">trending_up</i>
-                    +5% este mes
+                    +3% este mes
                 </div>
             </div>
             
             <div class="stat-card fade-in-up" style="animation-delay: 0.6s;">
-                <div class="stat-number">5</div>
-                <div class="stat-label">Hallazgos Críticos</div>
+                <div class="stat-number">8</div>
+                <div class="stat-label">Productos Bajo Stock</div>
                 <div class="stat-trend trend-down">
                     <i class="material-icons">trending_down</i>
                     -2 esta semana
@@ -800,77 +801,77 @@
         <div class="charts-section">
             <div class="chart-container fade-in-up" style="animation-delay: 0.7s;">
                 <div class="chart-header">
-                    <h4>Tendencia de Cumplimiento</h4>
+                    <h4>Ventas por Hora</h4>
                     <select style="padding: 0.4rem; border: 1px solid var(--gray-200); border-radius: var(--radius); font-size: 0.8rem;">
-                        <option>Últimos 6 meses</option>
-                        <option>Este año</option>
+                        <option>Hoy</option>
+                        <option>Ayer</option>
                     </select>
                 </div>
                 <div class="chart-wrapper">
-                    <canvas id="complianceChart" class="chart-canvas"></canvas>
+                    <canvas id="salesChart" class="chart-canvas"></canvas>
                 </div>
             </div>
             
             <div class="chart-container fade-in-up" style="animation-delay: 0.8s;">
                 <div class="chart-header">
-                    <h4>Distribución por Área</h4>
+                    <h4>Productos Más Vendidos</h4>
                 </div>
                 <div class="chart-wrapper">
-                    <canvas id="areaChart" class="chart-canvas"></canvas>
+                    <canvas id="productsChart" class="chart-canvas"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Pending Audits -->
-        <div class="pending-audits fade-in-up" style="animation-delay: 0.9s;">
+        <!-- Pending Tasks -->
+        <div class="pending-tasks fade-in-up" style="animation-delay: 0.9s;">
             <div class="section-header">
-                <h3><i class="material-icons">pending_actions</i> Evaluaciones Programadas</h3>
+                <h3><i class="material-icons">pending_actions</i> Tareas Pendientes</h3>
                 <span style="color: var(--gray-600); font-size: 0.75rem;">Orden de prioridad</span>
             </div>
             
-            <div class="audit-item">
-                <div class="audit-info">
-                    <div class="audit-icon electronics">
-                        <i class="material-icons">build</i>
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-icon inventory">
+                        <i class="material-icons">inventory</i>
                     </div>
-                    <div class="audit-details">
-                        <h4>Taller Electrónico</h4>
-                        <p>Estación de Soldadura #5 • Prioridad: Alta</p>
+                    <div class="task-details">
+                        <h4>Revisar Inventario Bebidas</h4>
+                        <p>Refrescos y aguas • Prioridad: Alta</p>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-sm" onclick="location.href='escaner.html'">
+                <button class="btn btn-primary btn-sm" onclick="location.href='inventario.html'">
                     <i class="material-icons">play_arrow</i>
                     Iniciar
                 </button>
             </div>
             
-            <div class="audit-item">
-                <div class="audit-info">
-                    <div class="audit-icon chemistry">
-                        <i class="material-icons">science</i>
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-icon cleaning">
+                        <i class="material-icons">cleaning_services</i>
                     </div>
-                    <div class="audit-details">
-                        <h4>Laboratorio Químico</h4>
-                        <p>Área de Reactivos • Prioridad: Media</p>
+                    <div class="task-details">
+                        <h4>Limpieza Área de Cajas</h4>
+                        <p>Checklist 5S • Prioridad: Media</p>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-sm" onclick="location.href='escaner.html'">
+                <button class="btn btn-primary btn-sm" onclick="location.href='limpieza.html'">
                     <i class="material-icons">play_arrow</i>
                     Iniciar
                 </button>
             </div>
             
-            <div class="audit-item">
-                <div class="audit-info">
-                    <div class="audit-icon warehouse">
-                        <i class="material-icons">inventory_2</i>
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-icon customer">
+                        <i class="material-icons">support_agent</i>
                     </div>
-                    <div class="audit-details">
-                        <h4>Almacén General</h4>
-                        <p>Zona de Herramientas • Prioridad: Baja</p>
+                    <div class="task-details">
+                        <h4>Revisar Quejas del Día</h4>
+                        <p>Seguimiento a clientes • Prioridad: Baja</p>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-sm" onclick="location.href='escaner.html'">
+                <button class="btn btn-primary btn-sm" onclick="location.href='atencion.html'">
                     <i class="material-icons">play_arrow</i>
                     Iniciar
                 </button>
@@ -885,13 +886,13 @@
                 <i class="material-icons">dashboard</i>
                 <span>Inicio</span>
             </a>
-            <a href="escaner.html" class="mobile-nav-item">
-                <i class="material-icons">qr_code_scanner</i>
-                <span>Escanear</span>
+            <a href="inventario.html" class="mobile-nav-item">
+                <i class="material-icons">inventory</i>
+                <span>Inventario</span>
             </a>
-            <a href="#" class="mobile-nav-item">
-                <i class="material-icons">assessment</i>
-                <span>Auditorías</span>
+            <a href="evidencias.html" class="mobile-nav-item">
+                <i class="material-icons">cleaning_services</i>
+                <span>Evidencias</span>
             </a>
             <a href="#" class="mobile-nav-item" onclick="logout()">
                 <i class="material-icons">logout</i>
@@ -909,15 +910,15 @@
 
         // Initialize Charts with responsive settings
         document.addEventListener('DOMContentLoaded', function() {
-            // Compliance Trend Chart
-            const complianceCtx = document.getElementById('complianceChart').getContext('2d');
-            new Chart(complianceCtx, {
+            // Sales Chart
+            const salesCtx = document.getElementById('salesChart').getContext('2d');
+            new Chart(salesCtx, {
                 type: 'line',
                 data: {
-                    labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    labels: ['8:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'],
                     datasets: [{
-                        label: 'Cumplimiento 5S (%)',
-                        data: [72, 76, 80, 82, 85, 87],
+                        label: 'Ventas ($)',
+                        data: [450, 1200, 1850, 2200, 1800, 2500, 1500],
                         borderColor: '#2563eb',
                         backgroundColor: 'rgba(37, 99, 235, 0.1)',
                         borderWidth: 2,
@@ -949,7 +950,6 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 100,
                             grid: {
                                 color: 'rgba(226, 232, 240, 0.5)'
                             },
@@ -979,19 +979,20 @@
                 }
             });
 
-            // Area Distribution Chart
-            const areaCtx = document.getElementById('areaChart').getContext('2d');
-            new Chart(areaCtx, {
+            // Products Chart
+            const productsCtx = document.getElementById('productsChart').getContext('2d');
+            new Chart(productsCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Taller Electrónico', 'Laboratorio Químico', 'Almacén', 'Oficinas'],
+                    labels: ['Bebidas', 'Lácteos', 'Panadería', 'Abarrotes', 'Limpieza'],
                     datasets: [{
-                        data: [35, 25, 20, 20],
+                        data: [35, 20, 15, 18, 12],
                         backgroundColor: [
                             '#3b82f6',
                             '#10b981',
                             '#f59e0b',
-                            '#8b5cf6'
+                            '#8b5cf6',
+                            '#ef4444'
                         ],
                         borderWidth: 0,
                         hoverOffset: 10
@@ -1042,4 +1043,3 @@
     </script>
 </body>
 </html>
-

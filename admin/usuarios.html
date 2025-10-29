@@ -3,16 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Usuarios - Sistema 5S</title>
+    <title>Gestión de Empleados - Sistema 5S</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --primary: #7c3aed;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary: #7c3aed;
+            --secondary-light: #ede9fe;
             --success: #16a34a;
+            --success-light: #dcfce7;
             --warning: #d97706;
+            --warning-light: #fef3c7;
             --danger: #dc2626;
+            --danger-light: #fef2f2;
+            --info: #0891b2;
+            --info-light: #cffafe;
             --bg: #f8fafc;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         * {
@@ -23,234 +50,700 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
+            line-height: 1.6;
         }
         
+        /* Navigation */
         .navbar {
-            background: white;
-            padding: 15px 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-md);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
         }
         
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 1rem;
         }
         
         .logo {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gray-800), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+        
+        .brand-text p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
         }
         
         .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 1.5rem;
+        }
+        
+        .user-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .user-details {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .user-role {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #b45309);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), #6d28d9);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem;
         }
         
+        /* Page Header */
         .page-header {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            overflow: hidden;
         }
         
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+        
+        .page-title h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--gray-800), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .page-title p {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+        
+        .header-stats {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 0 1rem;
+        }
+        
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        /* Navigation Menu */
         .nav-menu {
             display: flex;
-            gap: 15px;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
         }
         
         .nav-item {
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
             cursor: pointer;
-            transition: background 0.3s;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--gray-600);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .nav-item:hover {
-            background: #f3f4f6;
+            background: var(--gray-100);
+            color: var(--gray-800);
         }
         
         .nav-item.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
+            box-shadow: var(--shadow-md);
         }
         
+        /* Filters */
         .users-filters {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--radius-xl);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+        
+        .filter-group {
             display: flex;
-            gap: 15px;
-            align-items: center;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-700);
         }
         
         .filter-select, .search-box {
-            padding: 10px 15px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
             background: white;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .filter-select:focus, .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
         
         .search-box {
-            flex: 1;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25rem;
+            padding-right: 2.5rem;
         }
         
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
+        .actions-group {
+            display: flex;
+            gap: 1rem;
+            grid-column: 1 / -1;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
         }
         
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-        
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-        
+        /* Users Table */
         .users-table {
-            background: white;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-xl);
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
         
         .table-header {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 150px;
-            padding: 20px;
-            background: #f8fafc;
+            grid-template-columns: 1.5fr 1.2fr 1fr 1.2fr 1fr 160px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
             font-weight: 600;
-            border-bottom: 2px solid #e5e7eb;
+            border-bottom: 2px solid var(--gray-200);
+            color: var(--gray-700);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .user-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 150px;
-            padding: 20px;
-            border-bottom: 1px solid #f3f4f6;
+            grid-template-columns: 1.5fr 1.2fr 1fr 1.2fr 1fr 160px;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
             align-items: center;
+            transition: var(--transition);
         }
         
         .user-row:hover {
-            background: #f8fafc;
+            background: var(--gray-50);
+        }
+        
+        .user-row:nth-child(even) {
+            background: rgba(248, 250, 252, 0.5);
+        }
+        
+        .user-row:nth-child(even):hover {
+            background: var(--gray-100);
         }
         
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
-            margin-right: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
         }
         
         .user-info-cell {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 1rem;
+        }
+        
+        .user-details-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 1rem;
+        }
+        
+        .user-id {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .contact-email {
+            font-weight: 500;
+            color: var(--gray-800);
+        }
+        
+        .contact-phone {
+            font-size: 0.75rem;
+            color: var(--gray-500);
         }
         
         .role-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 0.5rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .role-admin {
-            background: #ede9fe;
+            background: var(--primary-light);
             color: var(--primary);
+            border: 1px solid rgba(37, 99, 235, 0.2);
         }
         
         .role-supervisor {
-            background: #dbeafe;
-            color: #2563eb;
+            background: var(--warning-light);
+            color: var(--warning);
+            border: 1px solid rgba(217, 119, 6, 0.2);
         }
         
-        .role-auditor {
-            background: #dcfce7;
+        .role-empleado {
+            background: var(--success-light);
             color: var(--success);
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+        
+        .role-almacenista {
+            background: var(--secondary-light);
+            color: var(--secondary);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .turno-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .turno-name {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .turno-hours {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+        
+        .status-badge {
+            padding: 0.5rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .status-active {
+            background: var(--success-light);
             color: var(--success);
-            font-weight: 600;
+            border: 1px solid rgba(22, 163, 74, 0.2);
         }
         
         .status-inactive {
+            background: var(--danger-light);
             color: var(--danger);
-            font-weight: 600;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+        
+        .status-vacaciones {
+            background: var(--info-light);
+            color: var(--info);
+            border: 1px solid rgba(8, 145, 178, 0.2);
         }
         
         .action-buttons {
             display: flex;
-            gap: 5px;
+            gap: 0.5rem;
+            justify-content: flex-end;
         }
         
         .btn-small {
-            padding: 6px 12px;
-            font-size: 12px;
+            padding: 0.5rem 0.875rem;
+            font-size: 0.75rem;
+            border-radius: var(--radius);
+            font-weight: 600;
         }
         
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+        
+        .btn-outline:hover {
+            background: var(--gray-50);
+            transform: translateY(-1px);
+        }
+        
+        /* Pagination */
         .pagination {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
         }
         
         .page-btn {
-            padding: 8px 12px;
-            border: 1px solid #e5e7eb;
+            padding: 0.625rem 0.875rem;
+            border: 1.5px solid var(--gray-300);
             background: white;
-            border-radius: 6px;
+            border-radius: var(--radius);
             cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            font-weight: 500;
+            min-width: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .page-btn:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
         }
         
         .page-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+        }
+        
+        .page-info {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin: 0 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .table-header, .user-row {
+                grid-template-columns: 1.5fr 1.2fr 1fr 1.2fr 1fr;
+            }
+            
+            .table-header div:nth-child(6),
+            .user-row div:nth-child(6) {
+                display: none;
+            }
+            
+            .action-buttons {
+                justify-content: flex-start;
+                margin-top: 1rem;
+                grid-column: 1 / -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.25rem;
+            }
+            
+            .user-details {
+                display: none;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: flex-start;
+            }
+            
+            .header-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .users-filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions-group {
+                grid-column: 1;
+                justify-content: stretch;
+            }
+            
+            .table-header, .user-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .table-header div,
+            .user-row div {
+                display: none;
+            }
+            
+            .table-header div:nth-child(1),
+            .user-row div:nth-child(1) {
+                display: block;
+            }
+            
+            .user-info-cell {
+                justify-content: flex-start;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .nav-item {
+                flex: 1;
+                justify-content: center;
+                min-width: 140px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
         }
     </style>
 </head>
@@ -259,165 +752,247 @@
     <nav class="navbar">
         <div class="nav-brand">
             <div class="logo">5S</div>
-            <h2>Gestión de Usuarios - Sistema 5S</h2>
+            <div class="brand-text">
+                <h1>Gestión de Empleados</h1>
+                <p>Administración de personal de la tienda</p>
+            </div>
         </div>
         
         <div class="user-info">
             <div class="nav-menu">
-                <div class="nav-item" onclick="location.href='dashboard.html'">Dashboard</div>
-                <div class="nav-item active" onclick="location.href='usuarios.html'">Usuarios</div>
-                <div class="nav-item" onclick="location.href='areas.html'">Áreas</div>
-                <div class="nav-item" onclick="location.href='configuracion.html'">Configuración</div>
+                <a href="dashboard.html" class="nav-item">
+                    <i class="material-icons">dashboard</i>
+                    Panel Principal
+                </a>
+                <a href="usuarios.html" class="nav-item active">
+                    <i class="material-icons">people</i>
+                    Empleados
+                </a>
+                <a href="turnos.html" class="nav-item">
+                    <i class="material-icons">schedule</i>
+                    Turnos
+                </a>
+                <a href="reportes.html" class="nav-item">
+                    <i class="material-icons">assessment</i>
+                    Reportes
+                </a>
             </div>
-            <span>Administrador</span>
-            <button class="btn btn-primary" onclick="logout()">Cerrar Sesión</button>
+            
+            <div class="user-details">
+                <div class="user-name">Administrador</div>
+                <div class="user-role">Tienda: Oxxo Centro</div>
+            </div>
+            <div class="user-avatar">AD</div>
+            <button class="btn btn-primary" onclick="logout()">
+                <i class="material-icons">logout</i>
+                Salir
+            </button>
         </div>
     </nav>
 
     <!-- Main Content -->
     <div class="container">
+    
 
         <!-- Filters -->
-        <div class="users-filters">
-            <select class="filter-select">
-                <option>Todos los Roles</option>
-                <option>Administrador</option>
-                <option>Supervisor</option>
-                <option>Auditor</option>
-            </select>
+        <div class="users-filters fade-in-up" style="animation-delay: 0.1s;">
+            <div class="filter-group">
+                <label class="filter-label">Puesto</label>
+                <select class="filter-select">
+                    <option>Todos los Puestos</option>
+                    <option>Cajero</option>
+                    <option>Reponedor</option>
+                    <option>Supervisor</option>
+                    <option>Almacenista</option>
+                </select>
+            </div>
             
-            <select class="filter-select">
-                <option>Todos los Estados</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
-                <option>Pendiente</option>
-            </select>
+            <div class="filter-group">
+                <label class="filter-label">Estado</label>
+                <select class="filter-select">
+                    <option>Todos los Estados</option>
+                    <option>Activo</option>
+                    <option>Inactivo</option>
+                    <option>Vacaciones</option>
+                </select>
+            </div>
             
-            <input type="text" class="search-box" placeholder="Buscar usuario por nombre o email...">
+            <div class="filter-group">
+                <label class="filter-label">Turno</label>
+                <select class="filter-select">
+                    <option>Todos los Turnos</option>
+                    <option>Matutino</option>
+                    <option>Vespertino</option>
+                    <option>Nocturno</option>
+                </select>
+            </div>
             
-            <button class="btn btn-primary">
-                <i class="material-icons">search</i> Buscar
-            </button>
+            <div class="filter-group">
+                <label class="filter-label">Buscar Empleado</label>
+                <input type="text" class="search-box" placeholder="Nombre, email o teléfono...">
+            </div>
             
-            <button class="btn btn-success" onclick="showAddUserModal()">
-                <i class="material-icons">person_add</i> Nuevo Usuario
-            </button>
+            <div class="actions-group">
+                <button class="btn btn-secondary">
+                    <i class="material-icons">filter_list</i> Filtrar
+                </button>
+                
+                <button class="btn btn-success" onclick="showAddUserModal()">
+                    <i class="material-icons">person_add</i> Nuevo Empleado
+                </button>
+            </div>
         </div>
 
         <!-- Users Table -->
-        <div class="users-table">
+        <div class="users-table fade-in-up" style="animation-delay: 0.2s;">
             <div class="table-header">
-                <div>Usuario</div>
-                <div>Email</div>
-                <div>Rol</div>
-                <div>Área Asignada</div>
+                <div>Empleado</div>
+                <div>Contacto</div>
+                <div>Puesto</div>
+                <div>Turno</div>
                 <div>Estado</div>
                 <div>Acciones</div>
             </div>
 
-            <!-- User 1 -->
-            <div class="user-row">
-                <div class="user-info-cell">
-                    <div class="user-avatar">AR</div>
-                    <div>
-                        <strong>Ana Rodríguez</strong>
-                        <div style="font-size: 12px; color: #6b7280;">Última conexión: Hoy</div>
-                    </div>
-                </div>
-                <div>ana.rodriguez@empresa.com</div>
-                <div><span class="role-badge role-supervisor">Supervisor</span></div>
-                <div>Laboratorio Químico</div>
-                <div class="status-active">● Activo</div>
-                <div class="action-buttons">
-                    <button class="btn btn-primary btn-small" onclick="editUser(1)">Editar</button>
-                    <button class="btn btn-danger btn-small" onclick="deleteUser(1)">Eliminar</button>
-                </div>
-            </div>
-
-            <!-- User 2 -->
-            <div class="user-row">
-                <div class="user-info-cell">
-                    <div class="user-avatar">CR</div>
-                    <div>
-                        <strong>Carlos Ruiz</strong>
-                        <div style="font-size: 12px; color: #6b7280;">Última conexión: Ayer</div>
-                    </div>
-                </div>
-                <div>carlos.ruiz@empresa.com</div>
-                <div><span class="role-badge role-supervisor">Supervisor</span></div>
-                <div>Taller Electrónico</div>
-                <div class="status-active">● Activo</div>
-                <div class="action-buttons">
-                    <button class="btn btn-primary btn-small">Editar</button>
-                    <button class="btn btn-danger btn-small">Eliminar</button>
-                </div>
-            </div>
-
-            <!-- User 3 -->
+            <!-- Employee 1 -->
             <div class="user-row">
                 <div class="user-info-cell">
                     <div class="user-avatar">MG</div>
-                    <div>
-                        <strong>María González</strong>
-                        <div style="font-size: 12px; color: #6b7280;">Última conexión: Hace 2 días</div>
+                    <div class="user-details-text">
+                        <div class="user-name">María González</div>
+                        <div class="user-id">ID: EMP-001</div>
                     </div>
                 </div>
-                <div>maria.gonzalez@empresa.com</div>
-                <div><span class="role-badge role-auditor">Auditor</span></div>
-                <div>Taller Electrónico</div>
-                <div class="status-active">● Activo</div>
+                <div class="contact-info">
+                    <div class="contact-email">maria.gonzalez@tienda.com</div>
+                    <div class="contact-phone">Tel: 555-1234</div>
+                </div>
+                <div><span class="role-badge role-supervisor"><i class="material-icons" style="font-size: 14px;">supervisor_account</i>Supervisora</span></div>
+                <div class="turno-info">
+                    <div class="turno-name">Matutino</div>
+                    <div class="turno-hours">7:00 - 15:00</div>
+                </div>
+                <div><span class="status-badge status-active"><i class="material-icons" style="font-size: 14px;">check_circle</i>Activa</span></div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary btn-small">Editar</button>
-                    <button class="btn btn-danger btn-small">Eliminar</button>
+                    <button class="btn btn-primary btn-small" onclick="editUser(1)"><i class="material-icons" style="font-size: 14px;">edit</i></button>
+                    <button class="btn btn-outline btn-small"><i class="material-icons" style="font-size: 14px;">visibility</i></button>
+                    <button class="btn btn-danger btn-small" onclick="deleteUser(1)"><i class="material-icons" style="font-size: 14px;">delete</i></button>
                 </div>
             </div>
 
-            <!-- User 4 -->
+            <!-- Employee 2 -->
+            <div class="user-row">
+                <div class="user-info-cell">
+                    <div class="user-avatar">CR</div>
+                    <div class="user-details-text">
+                        <div class="user-name">Carlos Ruiz</div>
+                        <div class="user-id">ID: EMP-002</div>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-email">carlos.ruiz@tienda.com</div>
+                    <div class="contact-phone">Tel: 555-5678</div>
+                </div>
+                <div><span class="role-badge role-empleado"><i class="material-icons" style="font-size: 14px;">point_of_sale</i>Cajero</span></div>
+                <div class="turno-info">
+                    <div class="turno-name">Vespertino</div>
+                    <div class="turno-hours">15:00 - 23:00</div>
+                </div>
+                <div><span class="status-badge status-active"><i class="material-icons" style="font-size: 14px;">check_circle</i>Activo</span></div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-small"><i class="material-icons" style="font-size: 14px;">edit</i></button>
+                    <button class="btn btn-outline btn-small"><i class="material-icons" style="font-size: 14px;">visibility</i></button>
+                    <button class="btn btn-danger btn-small"><i class="material-icons" style="font-size: 14px;">delete</i></button>
+                </div>
+            </div>
+
+            <!-- Employee 3 -->
             <div class="user-row">
                 <div class="user-info-cell">
                     <div class="user-avatar">LM</div>
-                    <div>
-                        <strong>Luis Martínez</strong>
-                        <div style="font-size: 12px; color: #6b7280;">Última conexión: Hace 1 semana</div>
+                    <div class="user-details-text">
+                        <div class="user-name">Laura Martínez</div>
+                        <div class="user-id">ID: EMP-003</div>
                     </div>
                 </div>
-                <div>luis.martinez@empresa.com</div>
-                <div><span class="role-badge role-auditor">Auditor</span></div>
-                <div>Almacén General</div>
-                <div class="status-inactive">● Inactivo</div>
+                <div class="contact-info">
+                    <div class="contact-email">laura.martinez@tienda.com</div>
+                    <div class="contact-phone">Tel: 555-9012</div>
+                </div>
+                <div><span class="role-badge role-empleado"><i class="material-icons" style="font-size: 14px;">inventory_2</i>Reponedora</span></div>
+                <div class="turno-info">
+                    <div class="turno-name">Matutino</div>
+                    <div class="turno-hours">7:00 - 15:00</div>
+                </div>
+                <div><span class="status-badge status-active"><i class="material-icons" style="font-size: 14px;">check_circle</i>Activa</span></div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary btn-small">Editar</button>
-                    <button class="btn btn-danger btn-small">Eliminar</button>
+                    <button class="btn btn-primary btn-small"><i class="material-icons" style="font-size: 14px;">edit</i></button>
+                    <button class="btn btn-outline btn-small"><i class="material-icons" style="font-size: 14px;">visibility</i></button>
+                    <button class="btn btn-danger btn-small"><i class="material-icons" style="font-size: 14px;">delete</i></button>
                 </div>
             </div>
 
-            <!-- User 5 -->
+            <!-- Employee 4 -->
             <div class="user-row">
                 <div class="user-info-cell">
                     <div class="user-avatar">JP</div>
-                    <div>
-                        <strong>Juan Pérez</strong>
-                        <div style="font-size: 12px; color: #6b7280;">Última conexión: Hoy</div>
+                    <div class="user-details-text">
+                        <div class="user-name">Juan Pérez</div>
+                        <div class="user-id">ID: EMP-004</div>
                     </div>
                 </div>
-                <div>juan.perez@empresa.com</div>
-                <div><span class="role-badge role-auditor">Auditor</span></div>
-                <div>Taller Mecánico</div>
-                <div class="status-active">● Activo</div>
+                <div class="contact-info">
+                    <div class="contact-email">juan.perez@tienda.com</div>
+                    <div class="contact-phone">Tel: 555-3456</div>
+                </div>
+                <div><span class="role-badge role-almacenista"><i class="material-icons" style="font-size: 14px;">warehouse</i>Almacenista</span></div>
+                <div class="turno-info">
+                    <div class="turno-name">Nocturno</div>
+                    <div class="turno-hours">23:00 - 7:00</div>
+                </div>
+                <div><span class="status-badge status-vacaciones"><i class="material-icons" style="font-size: 14px;">beach_access</i>Vacaciones</span></div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary btn-small">Editar</button>
-                    <button class="btn btn-danger btn-small">Eliminar</button>
+                    <button class="btn btn-primary btn-small"><i class="material-icons" style="font-size: 14px;">edit</i></button>
+                    <button class="btn btn-outline btn-small"><i class="material-icons" style="font-size: 14px;">visibility</i></button>
+                    <button class="btn btn-danger btn-small"><i class="material-icons" style="font-size: 14px;">delete</i></button>
+                </div>
+            </div>
+
+            <!-- Employee 5 -->
+            <div class="user-row">
+                <div class="user-info-cell">
+                    <div class="user-avatar">AR</div>
+                    <div class="user-details-text">
+                        <div class="user-name">Ana Rodríguez</div>
+                        <div class="user-id">ID: EMP-005</div>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-email">ana.rodriguez@tienda.com</div>
+                    <div class="contact-phone">Tel: 555-7890</div>
+                </div>
+                <div><span class="role-badge role-empleado"><i class="material-icons" style="font-size: 14px;">point_of_sale</i>Cajera</span></div>
+                <div class="turno-info">
+                    <div class="turno-name">Vespertino</div>
+                    <div class="turno-hours">15:00 - 23:00</div>
+                </div>
+                <div><span class="status-badge status-active"><i class="material-icons" style="font-size: 14px;">check_circle</i>Activa</span></div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-small"><i class="material-icons" style="font-size: 14px;">edit</i></button>
+                    <button class="btn btn-outline btn-small"><i class="material-icons" style="font-size: 14px;">visibility</i></button>
+                    <button class="btn btn-danger btn-small"><i class="material-icons" style="font-size: 14px;">delete</i></button>
                 </div>
             </div>
         </div>
 
         <!-- Pagination -->
-        <div class="pagination">
-            <button class="page-btn">‹ Anterior</button>
+        <div class="pagination fade-in-up" style="animation-delay: 0.3s;">
+            <button class="page-btn">‹</button>
             <button class="page-btn active">1</button>
             <button class="page-btn">2</button>
             <button class="page-btn">3</button>
-            <button class="page-btn">Siguiente ›</button>
+            <span class="page-info">de 8 páginas</span>
+            <button class="page-btn">›</button>
         </div>
     </div>
 
@@ -429,16 +1004,16 @@
         }
 
         function showAddUserModal() {
-            alert('Modal de agregar usuario - Funcionalidad en desarrollo');
+            alert('Modal de agregar empleado - Funcionalidad en desarrollo');
         }
 
         function editUser(userId) {
-            alert(`Editando usuario ID: ${userId} - Funcionalidad en desarrollo`);
+            alert(`Editando empleado ID: ${userId} - Funcionalidad en desarrollo`);
         }
 
         function deleteUser(userId) {
-            if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
-                alert(`Usuario ID: ${userId} eliminado - Funcionalidad en desarrollo`);
+            if (confirm('¿Estás seguro de que quieres eliminar este empleado?')) {
+                alert(`Empleado ID: ${userId} eliminado - Funcionalidad en desarrollo`);
             }
         }
     </script>

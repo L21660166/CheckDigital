@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Inventario - Sistema 5S</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #dbeafe;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: var(--shadow-md);
+            flex-shrink: 0;
+        }
+        
+        .brand-text h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gray-800), var(--gray-600));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.1rem;
+            line-height: 1.2;
+        }
+        
+        .brand-text p {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            font-weight: 500;
+            display: none;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-md);
+            flex-shrink: 0;
+        }
+        
+        .user-details {
+            text-align: right;
+            display: none;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 0.9rem;
+        }
+        
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .btn {
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-shrink: 0;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+        
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-title h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gray-800), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .page-title .icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+        
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        
+        .stat-card:nth-child(1)::before { background: var(--success); }
+        .stat-card:nth-child(2)::before { background: var(--warning); }
+        .stat-card:nth-child(3)::before { background: var(--primary); }
+        .stat-card:nth-child(4)::before { background: var(--danger); }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-card:nth-child(1) .stat-number { color: var(--success); }
+        .stat-card:nth-child(2) .stat-number { color: var(--warning); }
+        .stat-card:nth-child(3) .stat-number { color: var(--primary); }
+        .stat-card:nth-child(4) .stat-number { color: var(--danger); }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        /* Inventory Content */
+        .inventory-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .inventory-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        /* Products Table */
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .products-table th {
+            text-align: left;
+            padding: 0.75rem;
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.8rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .products-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.85rem;
+        }
+        
+        .products-table tr:hover {
+            background: var(--gray-50);
+        }
+        
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .product-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .product-icon.beverages { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .product-icon.dairy { background: linear-gradient(135deg, #10b981, #047857); }
+        .product-icon.bakery { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .product-icon.groceries { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        
+        .product-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            font-size: 0.9rem;
+        }
+        
+        .product-details p {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+        
+        .stock-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .status-in-stock {
+            background: var(--success-light);
+            color: var(--success);
+        }
+        
+        .status-low {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+        
+        .status-out {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-icon {
+            padding: 0.4rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Low Stock Alert */
+        .alert-card {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0.1) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .alert-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--danger);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-content h4 {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--danger);
+        }
+        
+        .alert-content p {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .action-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .action-card.primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .action-card.primary::before {
+            display: none;
+        }
+        
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.8rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .action-card:not(.primary) .action-icon {
+            background: linear-gradient(135deg, var(--primary-light), #e0f2fe);
+            color: var(--primary);
+        }
+        
+        .action-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .action-card p {
+            text-align: center;
+            color: var(--gray-600);
+            font-size: 0.85rem;
+        }
+        
+        .action-card.primary p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0.5rem;
+        }
+        
+        .mobile-nav-items {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.7rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            flex: 1;
+            max-width: 80px;
+        }
+        
+        .mobile-nav-item.active {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .mobile-nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        /* MEDIA QUERIES */
+        /* Tablet */
+        @media (min-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .navbar {
+                padding: 1rem 1.5rem;
+            }
+            
+            .brand-text p {
+                display: block;
+            }
+            
+            .user-details {
+                display: block;
+            }
+            
+            .stats-overview {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Desktop */
+        @media (min-width: 1024px) {
+            .container {
+                padding: 2rem;
+            }
+            
+            .navbar {
+                padding: 1rem 2rem;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .page-header {
+                padding: 2rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .action-card {
+                padding: 2rem;
+            }
+            
+            .action-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+            
+            .action-card h3 {
+                font-size: 1.5rem;
+            }
+            
+            .stat-card {
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .inventory-section {
+                padding: 2rem;
+            }
+        }
+        
+        /* Mobile Navigation visible only on small screens */
+        @media (max-width: 767px) {
+            .mobile-nav {
+                display: block;
+            }
+            
+            body {
+                padding-bottom: 70px;
+            }
+            
+            .navbar .btn {
+                display: none;
+            }
+            
+            .products-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+        
+        /* Very small screens */
+        @media (max-width: 360px) {
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+        
+        /* Color definitions for status */
+        .success-light { background: #dcfce7; }
+        .warning-light { background: #fef3c7; }
+        .danger-light { background: #fef2f2; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo">5S</div>
+            <div class="brand-text">
+                <h1>Control de Inventario</h1>
+                <p>Gestión de stock y productos</p>
+            </div>
+        </div>
+        
+        <div class="user-info">
+            <div class="user-details">
+                <div class="user-name">Carlos Mendoza</div>
+                <div class="user-role">Encargado de Tienda</div>
+            </div>
+            <div class="user-avatar">CM</div>
+            <button class="btn btn-primary" onclick="location.href='dashboard.html'">
+                <i class="material-icons">arrow_back</i>
+                Volver
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header fade-in-up">
+            <div class="page-title">
+                
+            </div>
+            
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="material-icons">search</i>
+                    <input type="text" placeholder="Buscar producto..." id="searchInput">
+                </div>
+                <button class="btn btn-primary" onclick="openAddProductModal()">
+                    <i class="material-icons">add</i>
+                    Nuevo Producto
+                </button>
+                <button class="btn btn-success" onclick="startInventoryCount()">
+                    <i class="material-icons">checklist</i>
+                    Conteo Físico
+                </button>
+            </div>
+        </div>
+
+        <!-- Low Stock Alert -->
+        <div class="alert-card fade-in-up">
+            <div class="alert-icon">
+                <i class="material-icons">warning</i>
+            </div>
+            <div class="alert-content">
+                <h4>Productos con Stock Bajo</h4>
+                <p>8 productos necesitan reposición urgente. Revisa la lista y realiza pedidos.</p>
+            </div>
+            <button class="btn btn-danger" onclick="viewLowStock()">
+                <i class="material-icons">visibility</i>
+                Ver Lista
+            </button>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-card fade-in-up" style="animation-delay: 0.1s;">
+                <div class="stat-number">342</div>
+                <div class="stat-label">Total de Productos</div>
+            </div>
+            
+            <div class="stat-card fade-in-up" style="animation-delay: 0.2s;">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Stock Bajo</div>
+            </div>
+            
+            <div class="stat-card fade-in-up" style="animation-delay: 0.3s;">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Sin Stock</div>
+            </div>
+            
+            <div class="stat-card fade-in-up" style="animation-delay: 0.4s;">
+                <div class="stat-number">94%</div>
+                <div class="stat-label">Precisión Inventario</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="action-card primary fade-in-up" onclick="startInventoryCount()">
+                <div class="action-icon">
+                    <i class="material-icons">checklist</i>
+                </div>
+                <h3>Conteo Físico</h3>
+                <p>Realizar conteo manual de inventario</p>
+            </div>
+            
+            <div class="action-card fade-in-up" style="animation-delay: 0.1s;" onclick="generateReport()">
+                <div class="action-icon">
+                    <i class="material-icons">assessment</i>
+                </div>
+                <h3>Reporte de Stock</h3>
+                <p>Generar reporte completo de inventario</p>
+            </div>
+            
+            <div class="action-card fade-in-up" style="animation-delay: 0.2s;" onclick="viewCategories()">
+                <div class="action-icon">
+                    <i class="material-icons">category</i>
+                </div>
+                <h3>Por Categorías</h3>
+                <p>Ver inventario organizado por categorías</p>
+            </div>
+        </div>
+
+        <!-- Inventory Content -->
+        <div class="inventory-content">
+            <!-- Products List -->
+            <div class="inventory-section fade-in-up" style="animation-delay: 0.3s;">
+                <div class="section-header">
+                    <h3><i class="material-icons">list_alt</i> Lista de Productos</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <select style="padding: 0.5rem; border: 1px solid var(--gray-200); border-radius: var(--radius); font-size: 0.8rem;">
+                            <option>Todos los productos</option>
+                            <option>Bebidas</option>
+                            <option>Lácteos</option>
+                            <option>Panadería</option>
+                            <option>Abarrotes</option>
+                        </select>
+                        <select style="padding: 0.5rem; border: 1px solid var(--gray-200); border-radius: var(--radius); font-size: 0.8rem;">
+                            <option>Todo el stock</option>
+                            <option>Stock bajo</option>
+                            <option>Sin stock</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Stock Actual</th>
+                                <th>Stock Mínimo</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <div class="product-icon beverages">
+                                            <i class="material-icons">local_drink</i>
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Coca-Cola 600ml</h4>
+                                            <p>REF-001</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Bebidas</td>
+                                <td>15</td>
+                                <td>20</td>
+                                <td>
+                                    <span class="stock-status status-low">
+                                        <i class="material-icons" style="font-size: 12px;">warning</i>
+                                        Stock Bajo
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-primary btn-icon" onclick="editProduct(1)">
+                                            <i class="material-icons" style="font-size: 16px;">edit</i>
+                                        </button>
+                                        <button class="btn btn-success btn-icon" onclick="adjustStock(1)">
+                                            <i class="material-icons" style="font-size: 16px;">inventory</i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <div class="product-icon dairy">
+                                            <i class="material-icons">local_drink</i>
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Leche Entera 1L</h4>
+                                            <p>REF-002</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Lácteos</td>
+                                <td>8</td>
+                                <td>15</td>
+                                <td>
+                                    <span class="stock-status status-low">
+                                        <i class="material-icons" style="font-size: 12px;">warning</i>
+                                        Stock Bajo
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-primary btn-icon" onclick="editProduct(2)">
+                                            <i class="material-icons" style="font-size: 16px;">edit</i>
+                                        </button>
+                                        <button class="btn btn-success btn-icon" onclick="adjustStock(2)">
+                                            <i class="material-icons" style="font-size: 16px;">inventory</i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <div class="product-icon bakery">
+                                            <i class="material-icons">bakery_dining</i>
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Pan Blanco</h4>
+                                            <p>REF-003</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Panadería</td>
+                                <td>0</td>
+                                <td>10</td>
+                                <td>
+                                    <span class="stock-status status-out">
+                                        <i class="material-icons" style="font-size: 12px;">cancel</i>
+                                        Sin Stock
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-primary btn-icon" onclick="editProduct(3)">
+                                            <i class="material-icons" style="font-size: 16px;">edit</i>
+                                        </button>
+                                        <button class="btn btn-success btn-icon" onclick="adjustStock(3)">
+                                            <i class="material-icons" style="font-size: 16px;">inventory</i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <div class="product-icon groceries">
+                                            <i class="material-icons">kitchen</i>
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Arroz 1kg</h4>
+                                            <p>REF-004</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Abarrotes</td>
+                                <td>45</td>
+                                <td>20</td>
+                                <td>
+                                    <span class="stock-status status-in-stock">
+                                        <i class="material-icons" style="font-size: 12px;">check_circle</i>
+                                        En Stock
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-primary btn-icon" onclick="editProduct(4)">
+                                            <i class="material-icons" style="font-size: 16px;">edit</i>
+                                        </button>
+                                        <button class="btn btn-success btn-icon" onclick="adjustStock(4)">
+                                            <i class="material-icons" style="font-size: 16px;">inventory</i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-items">
+            <a href="dashboard.html" class="mobile-nav-item">
+                <i class="material-icons">dashboard</i>
+                <span>Inicio</span>
+            </a>
+            <a href="inventario.html" class="mobile-nav-item active">
+                <i class="material-icons">inventory</i>
+                <span>Inventario</span>
+            </a>
+            <a href="limpieza.html" class="mobile-nav-item">
+                <i class="material-icons">cleaning_services</i>
+                <span>Limpieza</span>
+            </a>
+            <a href="#" class="mobile-nav-item" onclick="logout()">
+                <i class="material-icons">logout</i>
+                <span>Salir</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                window.location.href = '../index.html';
+            }
+        }
+
+        function openAddProductModal() {
+            alert('Funcionalidad: Abrir modal para agregar nuevo producto');
+        }
+
+        function startInventoryCount() {
+            alert('Funcionalidad: Iniciar conteo físico de inventario');
+        }
+
+        function generateReport() {
+            alert('Funcionalidad: Generar reporte de inventario');
+        }
+
+        function viewCategories() {
+            alert('Funcionalidad: Ver inventario por categorías');
+        }
+
+        function viewLowStock() {
+            alert('Funcionalidad: Ver lista de productos con stock bajo');
+        }
+
+        function editProduct(id) {
+            alert(`Funcionalidad: Editar producto con ID: ${id}`);
+        }
+
+        function adjustStock(id) {
+            alert(`Funcionalidad: Ajustar stock del producto con ID: ${id}`);
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            // In a real application, you would filter the table rows here
+            console.log('Buscando:', searchTerm);
+        });
+
+        // Add interactive effects
+        document.querySelectorAll('.action-card, .stat-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Mobile nav interaction
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.mobile-nav-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

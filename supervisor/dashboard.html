@@ -479,7 +479,7 @@
         .turns-list {
             background: var(--card-bg);
             border-radius: var(--border-radius);
-            padding: 25px;
+            padding: 20px;
             box-shadow: var(--shadow);
             height: fit-content;
             border: 1px solid var(--gray);
@@ -489,7 +489,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 0;
+            padding: 10px 0;
             border-bottom: 1px solid var(--gray);
             transition: var(--transition);
         }
@@ -596,7 +596,7 @@
         .incidents-section {
             background: var(--card-bg);
             border-radius: var(--border-radius);
-            padding: 25px;
+            padding: 20px;
             box-shadow: var(--shadow);
             border: 1px solid var(--gray);
         }
@@ -605,7 +605,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 14px 0;
             border-bottom: 1px solid var(--gray);
         }
         
@@ -845,7 +845,7 @@
                 </button>
                 
                 <div class="user-info">
-                    <div class="user-avatar">SU</div>
+                    <div class="user-avatar" id="logout-btn">SU</div>
                     <div class="user-name">Supervisor</div>
                 </div>
             </div>
@@ -1016,6 +1016,9 @@
             const navMenu = document.getElementById('nav-menu');
             const navLinks = document.querySelectorAll('.nav-link');
             const chatBtn = document.getElementById('chat-btn');
+            const userInfo = document.getElementById('user-info');
+            const userDropdown = document.getElementById('user-dropdown');
+            const logoutBtn = document.getElementById('logout-btn');
             
             // Menú hamburguesa
             hamburger.addEventListener('click', function() {
@@ -1059,6 +1062,15 @@
                 // Aquí se implementaría la lógica para abrir un chat
             });
         });
+
+        // Botón de cerrar sesión
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                    alert('Sesión cerrada correctamente');
+                    // Aquí iría la lógica para cerrar sesión
+                    // window.location.href = '/logout';
+                }
+            });
     </script>
 </body>
 </html>
